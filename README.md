@@ -1,12 +1,15 @@
-PETOOLS A puppet module for installing the windows ADK and create a x86_64
+PETOOLS
 =================================================================
+
+A puppet module for installing the Windows ADK and creating
+an a x86_64 WinPE Image and PXE environment for use on
+a Quartermaster provisioning server
 
 
 Basic usage
 -----------
 
-
-class {'petools': }
+    class {'petools': }
 
 
 Contributors
