@@ -16,7 +16,10 @@ class petools {
   }
 
 include petools::adk
-include petools::dell_drivers
+#
+# dell_driver class can be used to extract zipfile of device drivers.
+#
+#include petools::dell_drivers
 include petools::kvm_drivers
 include petools::7zip
 include petools::quartermaster
