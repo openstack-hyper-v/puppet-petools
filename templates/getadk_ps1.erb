@@ -1,0 +1,4 @@
+$url='<%= scope.lookupvar('adk_url') %>' 
+$file='<%= scope.lookupvar('pe_src') %>\<%= scope.lookupvar('adk_file') %>' 
+$wc = New-Object system.Net.Webclient  
+$wc.DownloadFile( $url, $file ) 

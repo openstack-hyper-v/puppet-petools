@@ -1,0 +1,11 @@
+wpeinit
+
+ping <%= @quartermaster_ip %>
+
+net use m: \\<%= @quartermaster_ip %>\ms /user:guest
+net use o: \\<%= @quartermaster_ip %>\os /user:guest
+net use s: \\<%= @quartermaster_ip %>\system /user:guest
+net use u: \\<%= @quartermaster_ip %>\unattend /user:guest
+
+
+s:\init.cmd

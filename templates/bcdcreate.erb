@@ -1,0 +1,29 @@
+set WAIKPath=%ProgramFiles%\Windows AIK
+set PEPath=C:\winpe\PXE
+set BootName=WinPE4.0-amd64
+set BCDStore=%PEPath%\BCD
+set arch=amd64
+ 
+copy "%WAIKPath%\Tools\PETools\%ARCH%\boot\boot.sdi" %TFTPPath%
+copy winpe.wim %TFTPPath%
+mkdir %TFTPPath%\Fonts
+copy mount\Windows\Boot\Fonts\wgl4_boot.ttf %TFTPPath%\Fonts
+cd mount\Windows\System32
+bcdedit -createstore %BCDStore%
+bcdedit -store %BCDStore% -create {ramdiskoptions} /d "Ramdisk options"
+bcdedit -store %BCDStore% -set {ramdiskoptions} ramdisksdidevice Boot %BootName%
+bcdedit -store %BCDStore% -set {ramdiskoptions} ramdisksdipath \%BootName%\boot.sdi
+bcdedit /store %BCDStore% /create /d "Windows 7 Install Image" /application osloader
+The entry {c9e1cba0-d192-11e0-b6ab-001d60aeed1b} was successfully created.
+set GUID={c9e1cba0-d192-11e0-b6ab-001d60aeed1b}
+bcdedit -store %BCDStore% -set %GUID% systemroot \Windows
+bcdedit -store %BCDStore% -set %GUID% detecthal Yes
+bcdedit -store %BCDStore% -set %GUID% winpe Yes
+bcdedit -store %BCDStore% -set %GUID% osdevice ramdisk=[boot]\%BootName%\boot.wim,{ramdiskoptions}
+bcdedit -store %BCDStore% -set %GUID% device ramdisk=[boot]\%BootName%\boot.wim,{ramdiskoptions}
+bcdedit -store %BCDStore% -create {bootmgr} /d "Windows 7 Boot Manager"
+bcdedit -store %BCDStore% -set {bootmgr} timeout 30
+bcdedit -store %BCDStore% -set {bootmgr} displayorder %GUID%
+bcdedit -store %BCDStore%
+cd %PEPath%
+imagex /unmount mount
