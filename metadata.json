@@ -1,7 +1,7 @@
 {
-  "name": "Peter Pouliot-quartermaster",
+  "name": "ppouliot-petools",
   "author": "Peter J. Pouliot",
-  "description": "Linux Provisioning Server\nDeploys EPL, Debian, SuSE and Windows Based Systems\n",
+  "description": "Puppet module for installing Windows ADK and Creating Custom WinPE image for Quartermaster PXE Provinsioning systems\n",
   "license": "Apache",
   "project_page": "",
   "source": "",
