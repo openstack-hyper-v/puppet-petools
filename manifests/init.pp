@@ -12,7 +12,7 @@ class petools {
   $path            = "${winpath};${powershell_path};${::path}"
 
   Exec{
-    path => $powershell_path;$winpath;$::path,
+    path => "$powershell_path;$winpath;$::path",
   }
 
 include petools::adk

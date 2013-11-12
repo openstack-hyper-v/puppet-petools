@@ -32,12 +32,18 @@ class petools::dell_drivers(
     group  => 'Administrators',
   }
 
-  exec {'7z_extract_zip':
-    command => "7z.exe x ${pe_drivers}\\Drivers.zip",
-    path    => "c:\\Program Files\\7-Zip;${::path}",
-    cwd     => $pe_src,
-    require => [Package['7z930-x64'],File['Drivers']],
+  commands::extract_archive {'dell_drivers':
+    archivefile => 'Drivers.zip',
+    archivepath => $pe_drivers,
+    require => File['Drivers'],
   }
+  
+#  exec {'7z_extract_zip':
+#    command => "7z.exe x ${pe_drivers}\\Drivers.zip",
+#    path    => "c:\\Program Files\\7-Zip;${::path}",
+#    cwd     => $pe_src,
+#    require => [Package['7z930-x64'],File['Drivers']],
+#  }
 
 #  exec {'install_dell_driver':
 #    command => "dism.exe /image:${petools::adk::pe_mount} /Add-Package /PackagePath: ${pe_src}\\${file}",
