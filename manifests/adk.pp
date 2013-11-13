@@ -60,7 +60,7 @@ class petools::adk{
 
   Exec{
 #      path => "${powershell_path};${dism_path};${bcd_path};${wsim_path};${::path}",
-      path => $dism_path;$bcd_path;$wsim_path;$::path,
+      path => "$dism_path;$bcd_path;$wsim_path;$::path",
   }
 
   file { 'pe_dir':
@@ -286,10 +286,13 @@ class petools::adk{
     require => Exec['mount_pe','install_adk','install_winpe_storagewmi'],
   }
 
+  class {'petools::dell_drivers':}
+  class {'petools::kvm_drivers':}
 
   exec {'install_device_drivers':
     command => "dism.exe /image:${pe_mount} /Add-Driver /driver:${pe_drivers} /recurse /forceunsigned",
-    require => Exec['mount_pe','7z_extract_zip','7z_extract_iso','install_winpe_storagewmi_en-us'],
+#    require => Exec['mount_pe','7z_extract_zip','7z_extract_iso','install_winpe_storagewmi_en-us'],
+    require => [Exec['mount_pe','install_winpe_storagewmi_en-us'], Class['petools::dell_drivers','petools::kvm_drivers']]
   }
   file {"${pe_bin}\\bcdcreate.cmd":
     ensure  => file,

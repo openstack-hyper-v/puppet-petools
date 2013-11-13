@@ -18,7 +18,7 @@ class petools::quartermaster{
 
 
   Exec{
-    path => $petools::powershell_path;$petools::winpath;$::path,
+    path => "$petools::powershell_path;$petools::winpath;$::path",
   }
 
 
