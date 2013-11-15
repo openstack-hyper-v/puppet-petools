@@ -7,7 +7,7 @@
 class petools::kvm_drivers {
 
   $driverfile = 'virtio-win-0.1-65.iso'
-  $driverurl  = 'http://alt.fedoraproject.org/pub/alt/virtio-win/latest/images/bin/'
+  $driverurl  = 'http://alt.fedoraproject.org/pub/alt/virtio-win/latest/images/bin'
   $pe_bin     = $petools::adk::pe_bin
   $pe_src     = $petools::adk::pe_src
   $pe_drivers = $petools::adk::pe_drivers
