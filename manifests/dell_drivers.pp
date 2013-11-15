@@ -26,7 +26,7 @@ class petools::dell_drivers(
 
   file {'Drivers':
     path   => "${pe_drivers}\\Drivers.zip",
-    source => 'puppet:///modules/petools/Drivers.zip',
+    source => 'puppet:///extra_files/Drivers.zip',
     mode   => '0770',
     owner  => 'Administrator',
     group  => 'Administrators',
