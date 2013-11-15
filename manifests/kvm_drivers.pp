@@ -6,7 +6,7 @@
 
 class petools::kvm_drivers {
 
-  $driverfile = 'virtio-win-0.1-52.iso'
+  $driverfile = 'virtio-win-0.1-65.iso'
   $driverurl  = 'http://alt.fedoraproject.org/pub/alt/virtio-win/latest/images/bin/'
   $pe_bin     = $petools::adk::pe_bin
   $pe_src     = $petools::adk::pe_src
@@ -14,15 +14,15 @@ class petools::kvm_drivers {
 
   import 'commands'
 
-  commands::ps-get-drivers-from-web{'get-win-virtio':
+  petools::commands::ps-get-drivers-from-web{'get-win-virtio':
     url  => "${driverurl}/${driverfile}",
     file => $driverfile,
   }
 
-  commands::extract_archive {'kvm_drivers':
+  petools::commands::extract_archive {'kvm_drivers':
     archivefile => $driverfile,
     archivepath => $pe_drivers,
-    require => Commands::Ps-get-drivers-from-web['get-win-virtio'],
+    require => Exec['get-win-virtio'],
   }
   
 #  exec {'7z_extract_iso':

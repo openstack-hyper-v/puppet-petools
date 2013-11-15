@@ -71,6 +71,6 @@ class petools::quartermaster{
     ensure          => installed,
     source          => "${petools::adk::pe_src}\\${puppetmsi}",
     install_options => [ '/passive',{'INSTALLDIR' => 'c:\winpe\build\mount\Program Files (x86)'}],
-    require         => [Commands::Ps-get-msi-from-web['get-puppet-agent'],Exec['mount_pe']],
+    require         => Exec['get-puppet-agent','mount_pe'],
   }
 }
