@@ -8,7 +8,7 @@
 class petools::quartermaster{
 
     $drive_letter     = 'q'
-    $quartermaster_ip = '10.21.7.1'
+    $quartermaster_ip = '10.21.7.22'
     $q_fqdn           = 'quartermaster.openstack.tld'
     $pe_tftpboot      = 'pe-pxeroot'
     $pe_wwwroot       = 'winpe'
@@ -42,7 +42,8 @@ class petools::quartermaster{
 
   file {"${drive_letter}:\\winpe.menu":
     ensure  => file,
-    content => template('petools/pxemenu.erb'),
+    content => template("petools/pxemenu.erb"),
+#    source  => "puppet:///modules/petools/pxemenu",
     require =>  Exec['mount_q'],
   }
   file {'q_pe_bootdir':
@@ -53,24 +54,24 @@ class petools::quartermaster{
   file { 'startnet.cmd':
     ensure  => file,
     path    => "${petools::adk::pe_mount}//Windows//System32//startnet.cmd",
-    content => template('petools/startnet.erb'),
+    content => template("petools/startnet.erb"),
     require => Exec['mount_pe'],
   }
 
-  commands::ps-get-msi-from-web{'get-puppet-agent':
-    url  => "${puppeturl}/${puppetmsi}",
-    file => $puppetmsi,
-  }
+#  commands::ps-get-msi-from-web{'get-puppet-agent':
+#    url  => "${puppeturl}/${puppetmsi}",
+#    file => $puppetmsi,
+#  }
 
 #  exec {'install-puppet-on-winpe':
 #    command => "cmd.exe /c msiexec.exe /a ${puppetmsi} /passive /log c:\wpepuppet.log PUPPET_MASTER_SERVER=\"${q_fqdn}\" INSTALLDIR='${petools::adk::pe_mount}\\program",
 #    cwd     => "c:/winpe/src",
 #    require => [Commands::Ps-get-msi-from-web['get-puppet-agent'],Exec['mount_pe']],
 #  }
-  package { $puppetmsi:
-    ensure          => installed,
-    source          => "${petools::adk::pe_src}\\${puppetmsi}",
-    install_options => [ '/passive',{'INSTALLDIR' => 'c:\winpe\build\mount\Program Files (x86)'}],
-    require         => Exec['get-puppet-agent','mount_pe'],
-  }
+#  package { $puppetmsi:
+#    ensure          => installed,
+#    source          => "${petools::adk::pe_src}\\${puppetmsi}",
+#    install_options => [ '/passive',{'INSTALLDIR' => 'c:\winpe\build\mount\Program Files (x86)'}],
+#    require         => Exec['get-puppet-agent','mount_pe'],
+#  }
 }
