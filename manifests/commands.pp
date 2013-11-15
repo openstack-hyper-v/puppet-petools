@@ -11,10 +11,13 @@ class petools::commands {
   define ps-get-drivers-from-web( $url, $file){
     exec { $name:
       path    => $::path,
-      command => "powershell.exe -executionpolicy remotesigned -Command Invoke-WebRequest -UseBasicParsing -uri ${url} -OutFile ${file}",
+      command => "Invoke-WebRequest -UseBasicParsing -uri ${url} -OutFile ${file}",
+     # command  => "(new-object Net.WebClient).DownloadFile(\'${source}\',\'${destination}\')",
       creates => "${petools::adk::pe_drivers}\\${file}",
       cwd     => $petools::adk::pe_drivers,
       require => File [ 'pe_drivers' ],
+      timeout => 0,
+      provider => powershell,
     }
 
   }
@@ -26,11 +29,13 @@ class petools::commands {
   define ps-get-msi-from-web ( $url, $file) {
     exec { $name:
       path      => $::path,
-      command   => "powershell.exe -executionpolicy remotesigned -Command Invoke-WebRequest -UseBasicParsing -uri ${url} -OutFile ${file}",
+      command   => "Invoke-WebRequest -UseBasicParsing -uri ${url} -OutFile ${file}",
       creates   => "${petools::adk::pe_src}\\${file}",
       cwd       => $petools::adk::pe_src,
       require   => File [ 'pe_src' ],
       logoutput => true,
+      timeout => 0,
+      provider => powershell,
     }
   }
 
@@ -42,6 +47,7 @@ class petools::commands {
     exec { "mount-${name}":
       command => "net.exe use ${drive_letter} \\\\${server}\\${share} /persist:yes",
       creates => "${drive_letter}/",
+      logoutput => true,
     }
   }
 
@@ -52,6 +58,7 @@ class petools::commands {
     $drive_letter = $name
     exec { "unmount-${name}":
       command   => "net.exe use ${drive_letter} /delete",
+      logoutput => true,
     }
   }
 # Define: petools::commands::extract_archive
@@ -60,7 +67,7 @@ class petools::commands {
   define extract_archive ($archivefile, $archivepath = $petools::adk::pe_src){
     exec {"7z_extract_${name}":
       command   => "7z.exe x c:\\winpe\\src\\${archivefile}",
-      path      => "c:\\Program Files\\7-Zip;${::path}",
+#      path      => "c:\\Program Files\\7-Zip;${::path}",
       cwd       => $archivepath,
       # require => [Package['7z930-x64'],Exec['get-kvm-drivers']],
       require   => Package['7z930-x64'],

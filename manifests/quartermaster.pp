@@ -7,7 +7,7 @@
 
 class petools::quartermaster{
 
-    $drive_letter     = 'q'
+    $drive_letter     = 'k'
     $quartermaster_ip = '10.21.7.22'
     $q_fqdn           = 'quartermaster.openstack.tld'
     $pe_tftpboot      = 'pe-pxeroot'
