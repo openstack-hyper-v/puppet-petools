@@ -24,10 +24,10 @@ class petools::quartermaster{
 
 
   exec { 'mount_q':
-    command => "net.exe use q: \\\\${quartermaster_ip}\\pe-pxeroot /user:guest",
+    command => "net.exe use k: \\\\${quartermaster_ip}\\pe-pxeroot /user:guest",
   }
   exec { 'unmount_q':
-    command     => 'net.exe use q: /d',
+    command     => 'net.exe use k: /d',
     refreshonly => true,
   }
 

@@ -66,7 +66,7 @@ class petools::commands {
 
   define extract_archive ($archivefile, $archivepath = $petools::adk::pe_src){
     exec {"7z_extract_${name}":
-      command   => "7z.exe x c:\\winpe\\src\\${archivefile}",
+      command   => "c:\\Program Files\\7-Zip\\7z.exe x c:\\winpe\\src\\${archivefile}",
 #      path      => "c:\\Program Files\\7-Zip;${::path}",
       cwd       => $archivepath,
       # require => [Package['7z930-x64'],Exec['get-kvm-drivers']],
