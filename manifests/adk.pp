@@ -169,6 +169,7 @@ class petools::adk{
   exec { 'install_adk':
     command => "${pe_src}\\adksetup.exe /quiet /norestart /features ${adk_features} /log ${adk_install_log}",
     require => [File['pe_src'],Exec['get_adk']],
+    notify  => Exec['unmount_q'],
     timeout => 0,
   }
   exec { 'set_pe_cmd_env':

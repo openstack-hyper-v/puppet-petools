@@ -17,11 +17,13 @@ class petools::dell_drivers(
 
 ){
   exec {'get-dell-drivers-cab':
-    path    => $::path,
-    command => "c:\\Windows\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe -executionpolicy remotesigned -Command Invoke-WebRequest -UseBasicParsing -uri ${url} -OutFile ${file}",
-    creates => "${pe_src}\${file}",
-    cwd     => $pe_src,
-    require => File['pe_src']
+    path      => $::path,
+    command   => "Invoke-WebRequest -UseBasicParsing -uri ${url} -OutFile ${file}",
+    creates   => "${pe_src}\${file}",
+    cwd       => $pe_src,
+    require   => File['pe_src'],
+    logoutput => true,
+    provider => powershell,
   }
 
   file {'Drivers':
