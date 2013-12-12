@@ -8,8 +8,8 @@
 class petools::quartermaster{
 
     $drive_letter     = 'k'
-    $quartermaster_ip = '10.21.7.22'
-    $q_fqdn           = 'quartermaster.openstack.tld'
+    $quartermaster_ip = '10.21.7.3'
+    $q_fqdn           = 'q0.openstack.tld'
     $pe_tftpboot      = 'pe-pxeroot'
     $pe_wwwroot       = 'winpe'
 
@@ -24,10 +24,10 @@ class petools::quartermaster{
 
 
   exec { 'mount_q':
-    command => "net.exe use k: \\\\${quartermaster_ip}\\pe-pxeroot /user:guest",
+    command => "net.exe use ${drive_letter}: \\\\${quartermaster_ip}\\pe-pxeroot /user:guest",
   }
   exec { 'unmount_q':
-    command     => 'net.exe use k: /d',
+    command     => 'net.exe use ${drive_letter}: /d',
     refreshonly => true,
   }
 
