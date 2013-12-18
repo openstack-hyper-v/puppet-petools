@@ -9,7 +9,7 @@
 class petools {
   $winpath         = " C:\\windows\\sysnative;c:\\winpe\\bin;${::path}"
   $powershell_path = 'c:\\Windows\\sysnative\\WindowsPowerShell\\v1.0'
-  $zip7_exe_path       = "c:\\Program\ Files\\7-Zip"
+  $zip7_exe_path   = 'c:\\Program\ Files\\7-Zip'
   $path            = "${winpath};${powershell_path};${::path}"
 
   Exec{
