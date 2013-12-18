@@ -5,15 +5,15 @@
 # quartermaster module is required to exist somewhere on the network
 
 
-class petools::quartermaster(
+class petools::quartermaster (
 
-    $drive_letter     = 'k'
-    $quartermaster_ip = '10.21.7.22'
-    $q_fqdn           = 'quartermaster.openstack.tld'
-    $pe_tftpboot      = 'pe-pxeroot'
-    $pe_wwwroot       = 'winpe'
+    $drive_letter     = 'k',
+    $quartermaster_ip = '10.21.7.22',
+    $q_fqdn           = 'quartermaster.openstack.tld',
+    $pe_tftpboot      = 'pe-pxeroot',
+    $pe_wwwroot       = 'winpe',
 
-    $puppeturl        = 'https://downloads.puppetlabs.com/windows/'
+    $puppeturl        = 'https://downloads.puppetlabs.com/windows/',
     $puppetmsi        = 'puppet-3.1.0.msi'
 
 ){
