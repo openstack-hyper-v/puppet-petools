@@ -23,7 +23,7 @@ class petools::dell_drivers(
     cwd       => $pe_src,
     require   => File['pe_src'],
     logoutput => true,
-    provider => powershell,
+    provider  => powershell,
   }
 
   file {'Drivers':
@@ -37,7 +37,7 @@ class petools::dell_drivers(
   commands::extract_archive {'dell_drivers':
     archivefile => 'Drivers.zip',
     archivepath => $pe_drivers,
-    require => File['Drivers'],
+    require     => File['Drivers'],
   }
   
 #  exec {'7z_extract_zip':

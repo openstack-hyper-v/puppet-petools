@@ -60,7 +60,7 @@ class petools::adk{
 
   Exec{
 #      path => "${powershell_path};${dism_path};${bcd_path};${wsim_path};${::path}",
-      path => "$dism_path;$bcd_path;$wsim_path;$::path",
+      path => "${::dism_path};${::bcd_path};${::wsim_path};${::path}",
   }
 
   file { 'pe_dir':
@@ -114,45 +114,45 @@ class petools::adk{
   }
 
   file { "${pe_pxe}\\Boot":
-    ensure   => directory,
-    mode     => '0770',
-    owner    => 'Administrator',
-    group    => 'Administrators',
+    ensure => directory,
+    mode   => '0770',
+    owner  => 'Administrator',
+    group  => 'Administrators',
   }
 
   file { "${pe_build}\\media":
-    ensure    => directory,
-    recurse   => true,
-    source    => "${pe_root}\\amd64\\media",
-    mode      => '0770',
-    owner     => 'Administrator',
-    group     => 'Administrators',
-    require   => [File['pe_build'],Exec['install_adk']],
+    ensure  => directory,
+    recurse => true,
+    source  => "${pe_root}\\amd64\\media",
+    mode    => '0770',
+    owner   => 'Administrator',
+    group   => 'Administrators',
+    require => [File['pe_build'],Exec['install_adk']],
   }
 
   file { "${pe_build}\\winpe.wim":
-    ensure    => file,
-    source    => "${pe_root}\\amd64\\en-us\\winpe.wim",
-    mode      => '0777',
-    owner     => 'Administrator',
-    group     => 'Administrators',
-    require   => [File['pe_build'],Exec['install_adk']],
+    ensure  => file,
+    source  => "${pe_root}\\amd64\\en-us\\winpe.wim",
+    mode    => '0777',
+    owner   => 'Administrator',
+    group   => 'Administrators',
+    require => [File['pe_build'],Exec['install_adk']],
   }
   file { "${pe_build}\\etfsboot.com":
-    ensure    => file,
-    source    => "${pe_deployment_tools}\\amd64\\Oscdimg\\etfsboot.com",
-    mode      => '0777',
-    owner     => 'Administrator',
-    group     => 'Administrators',
-    require   => [File['pe_build'],Exec['install_adk']],
+    ensure  => file,
+    source  => "${pe_deployment_tools}\\amd64\\Oscdimg\\etfsboot.com",
+    mode    => '0777',
+    owner   => 'Administrator',
+    group   => 'Administrators',
+    require => [File['pe_build'],Exec['install_adk']],
   }
   file { "${pe_build}\\oscdimg.exe":
-    ensure    => file,
-    source    => "${pe_deployment_tools}\\amd64\\Oscdimg\\oscdimg.exe",
-    mode      => '0777',
-    owner     => 'Administrator',
-    group     => 'Administrators',
-    require   => [File['pe_build'],Exec['install_adk']],
+    ensure  => file,
+    source  => "${pe_deployment_tools}\\amd64\\Oscdimg\\oscdimg.exe",
+    mode    => '0777',
+    owner   => 'Administrator',
+    group   => 'Administrators',
+    require => [File['pe_build'],Exec['install_adk']],
   }
 
   exec {'get_adk':

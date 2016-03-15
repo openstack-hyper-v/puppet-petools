@@ -18,7 +18,7 @@ class petools::quartermaster (
 
 ){
   Exec{
-    path => "$petools::powershell_path;$petools::winpath;$::path",
+    path => $petools::powershell_path;$petools::winpath;$::path,
   }
 
 
@@ -27,7 +27,7 @@ class petools::quartermaster (
     command => "net.exe use ${drive_letter}: \\\\${quartermaster_ip}\\pe-pxeroot /user:guest",
   }
   exec { 'unmount_q':
-    command     => 'net.exe use ${drive_letter}: /d',
+    command     => "net.exe use ${drive_letter}: /d",
     refreshonly => true,
   }
 
@@ -42,7 +42,7 @@ class petools::quartermaster (
 
   file {"${drive_letter}:\\winpe.menu":
     ensure  => file,
-    content => template("petools/pxemenu.erb"),
+    content => template('petools/pxemenu.erb'),
 #    source  => "puppet:///modules/petools/pxemenu",
     require =>  Exec['mount_q'],
   }
@@ -54,7 +54,7 @@ class petools::quartermaster (
   file { 'startnet.cmd':
     ensure  => file,
     path    => "${petools::adk::pe_mount}//Windows//System32//startnet.cmd",
-    content => template("petools/startnet.erb"),
+    content => template('petools/startnet.erb'),
     require => Exec['mount_pe'],
   }
 

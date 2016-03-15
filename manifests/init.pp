@@ -14,7 +14,7 @@ class petools {
 
   Exec{
 #    path => "$powershell_path;$winpath;$::path",
-    path => "${zip7_path};${powershell_path};${winpath}",
+    path => "${::zip7_path};${::powershell_path};${::winpath}",
   }
 
 include petools::adk

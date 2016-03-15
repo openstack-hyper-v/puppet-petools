@@ -23,7 +23,7 @@ class petools::kvm_drivers {
     archivefile => $driverfile,
     archivepath => $pe_drivers,
 #    require => Exec['get-win-virtio'],
-    require => [Package['7z930-x64'],Exec['get-win-virtio']],
+    require     => [Package['7z930-x64'],Exec['get-win-virtio']],
   }
   
 #  exec {'7z_extract_iso':
