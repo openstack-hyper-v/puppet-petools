@@ -11,7 +11,7 @@
   define ps_get_drivers_from_web( $::url, $::file){
     exec { $name:
       path    => $::path,
-      command => "Invoke-WebRequest -UseBasicParsing -uri ${::url} -OutFile ${:;file}",
+      command => "Invoke-WebRequest -UseBasicParsing -uri ${::url} -OutFile ${::file}",
       # command  => "(new-object Net.WebClient).DownloadFile(\'${source}\',\'${destination}\')",
       creates => "${petools::adk::pe_drivers}\\${::file}",
       cwd     => $petools::adk::pe_drivers,

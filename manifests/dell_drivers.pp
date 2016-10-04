@@ -34,7 +34,7 @@ class petools::dell_drivers(
     group  => 'Administrators',
   }
 
-  commands::extract_archive {'dell_drivers':
+  petools::commands::extract_archive {'dell_drivers':
     archivefile => 'Drivers.zip',
     archivepath => $pe_drivers,
     require     => File['Drivers'],
