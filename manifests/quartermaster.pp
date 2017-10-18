@@ -8,8 +8,8 @@
 class petools::quartermaster (
 
     $drive_letter     = 'k',
-    $quartermaster_ip = '10.21.7.22',
-    $q_fqdn           = 'quartermaster.openstack.tld',
+    $quartermaster_ip = '172.16.123.129',
+    $q_fqdn           = 'quartermaster.localdomain',
     $pe_tftpboot      = 'pe-pxeroot',
     $pe_wwwroot       = 'winpe',
 
@@ -18,7 +18,7 @@ class petools::quartermaster (
 
 ){
   Exec{
-    path => $petools::powershell_path;$petools::winpath;$::path,
+    path => "${petools::powershell_path};${petools::winpath};${::path}",
   }
 
 
@@ -53,7 +53,7 @@ class petools::quartermaster (
   }
   file { 'startnet.cmd':
     ensure  => file,
-    path    => "${petools::adk::pe_mount}//Windows//System32//startnet.cmd",
+    path    => "${petools::pe_mount}//Windows//System32//startnet.cmd",
     content => template('petools/startnet.erb'),
     require => Exec['mount_pe'],
   }

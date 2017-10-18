@@ -24,7 +24,9 @@ class petools (
   $pe_tmp              = "${pe_dir}\\tmp",
 
   # ADK Url and Install Options
-  $adk_url             = 'http://download.microsoft.com/download/9/9/F/99F5E440-5EB5-4952-9935-B99662C3DF70/adk/adksetup.exe',
+#  $adk_url             = 'http://download.microsoft.com/download/9/9/F/99F5E440-5EB5-4952-9935-B99662C3DF70/adk/adksetup.exe',
+  $adk_url             = 'https://go.microsoft.com/fwlink/p/?linkid=859206',
+
   $adk_file            = 'adksetup.exe',
   $adk_features        = 'OptionId.DeploymentTools OptionId.WindowsPreinstallationEnvironment',
   $adk_install_log     = "${pe_logs}\\adksetup.log",
@@ -45,16 +47,18 @@ class petools (
   $winpe_hta              = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-WMI.cab"',
   $winpe_hta_enus         = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-WMI_en-us.cab"',
   $winpe_scripting        = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-Scripting.cab"',
-  $winpe_netfx4           = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-NetFx4.cab"',
-  $winpe_netfx4_enus      = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-NetFx4_en-us.cab"',
-  $winpe_powershell3      = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-PowerShell3.cab"',
-  $winpe_powershell3_enus = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-PowerShell3_en-us.cab"',
+#  $winpe_netfx4           = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-NetFx4.cab"',
+  $winpe_netfx4           = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-NetFx.cab"',
+#  $winpe_netfx4_enus      = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-NetFx4_en-us.cab"',
+  $winpe_netfx4_enus      = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-NetFx_en-us.cab"',
+  $winpe_powershell3      = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-PowerShell.cab"',
+  $winpe_powershell3_enus = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-PowerShell_en-us.cab"',
   $winpe_storagewmi       = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-StorageWMI.cab"',
   $winpe_storagewmi_enus  = '"C:\\Program Files (x86)\\Windows Kits\\10\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-StorageWMI_en-us.cab"',
 
 
-  $winpath         = " C:\\windows\\sysnative;c:\\winpe\\bin;${::path}",
-  $powershell_path = 'c:\\Windows\\sysnative\\WindowsPowerShell\\v1.0',
+  $winpath         = " C:\\windows\\${system32};c:\\winpe\\bin;${::path}",
+  $powershell_path = 'c:\\Windows\\${system32}\\WindowsPowerShell\\v1.0',
   $zip7_exe_path   = 'c:\\Program\ Files\\7-Zip',
   $path            = "${winpath};${powershell_path};${::path}",
 
@@ -72,11 +76,14 @@ include petools::adk
 #
 # dell_driver class can be used to extract zipfile of device drivers.
 #
-include petools::dell_drivers
-include petools::kvm_drivers
-include petools::7zip
+#include petools::dell_drivers
+#include petools::kvm_drivers
+# include petools::7zip
+package{'7zip':
+  ensure   => latest,
+  provider => chocolatey,
+}
 include petools::quartermaster
 #include petools::wsim
 
 }
-
