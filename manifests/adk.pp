@@ -6,54 +6,7 @@
 
 
 
-class petools::adk{
-
-#  $powershell_path     = 'c:\\Windows\\sysnative\\WindowsPowerShell\\v1.0'
-
-  $pe_dir              = 'c:\\winpe'
-  $pe_programs         = 'c:\winpe\build\mount\Program Files (x86)'
-
-  # Our WinPE Folder Structure
-  $pe_src              = "${pe_dir}\\src"
-  $pe_drivers          = "${pe_dir}\\src\\drivers"
-  $pe_bin              = "${pe_dir}\\bin"
-  $pe_logs             = "${pe_dir}\\logs"
-  $pe_build            = "${pe_dir}\\build"
-  $pe_mount            = "${pe_dir}\\build\\mount"
-  #$pe_programs        = "${pe_mount}\\Program Files (x86)"
-  $pe_iso              = "${pe_dir}\\ISO"
-  $pe_pxe              = "${pe_dir}\\PXE"
-  $pe_tmp              = "${pe_dir}\\tmp"
-
-  # ADK Url and Install Options
-  $adk_url             = 'http://download.microsoft.com/download/9/9/F/99F5E440-5EB5-4952-9935-B99662C3DF70/adk/adksetup.exe'
-  $adk_file            = 'adksetup.exe'
-  $adk_features        = 'OptionId.DeploymentTools OptionId.WindowsPreinstallationEnvironment'
-  $adk_install_log     = "${pe_logs}\\adksetup.log"
-
-  # Windows PE Specific Paths
-  $pe_root             = 'C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment'
-  $pe_amd64_src        = 'C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64'
-  $pe_x32_src          = 'C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\x86'
-  $pe_package_src      = 'C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs'
-  $pe_deployment_tools = 'C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Deployment Tools'
-  $dism_path           = "${pe_deployment_tools}\\amd64\\DISM"
-  $bcd_path            = "${pe_deployment_tools}\\amd64\\BCDBoot"
-  $wism_path           = "${pe_deployment_tools}\\WSIM"
-
-  # Windows PE Packages
-  $winpe_wmi              = '"C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-WMI.cab"'
-  $winpe_wmi_enus         = '"C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-WMI_en-us.cab"'
-  $winpe_hta              = '"C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-WMI.cab"'
-  $winpe_hta_enus         = '"C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-WMI_en-us.cab"'
-  $winpe_scripting        = '"C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-Scripting.cab"'
-  $winpe_netfx4           = '"C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-NetFx4.cab"'
-  $winpe_netfx4_enus      = '"C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-NetFx4_en-us.cab"'
-  $winpe_powershell3      = '"C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-PowerShell3.cab"'
-  $winpe_powershell3_enus = '"C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-PowerShell3_en-us.cab"'
-  $winpe_storagewmi       = '"C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\WinPE-StorageWMI.cab"'
-  $winpe_storagewmi_enus  = '"C:\\Program Files (x86)\\Windows Kits\\8.0\\Assessment and Deployment Kit\\Windows Preinstallation Environment\\amd64\\WinPE_OCs\\en-us\\WinPE-StorageWMI_en-us.cab"'
-
+class petools::adk(){
 
   import 'commands'
 
@@ -65,49 +18,49 @@ class petools::adk{
 
   file { 'pe_dir':
     ensure => directory,
-    path   => $pe_dir,
+    path   => $quartermaster::pe_dir,
   }
 
   file { 'pe_src':
     ensure => directory,
-    path   => $pe_src,
+    path   => $quartermaster::pe_src,
   }
   file { 'pe_drivers':
     ensure => directory,
-    path   => $pe_drivers,
+    path   => $quartermaster::pe_drivers,
   }
 
   file { 'pe_logs':
     ensure => directory,
-    path   => $pe_logs,
+    path   => $quartermaster::pe_logs,
   }
 
   file { 'pe_bin':
     ensure => directory,
-    path   => $pe_bin,
+    path   => $quartermaster::pe_bin,
   }
   file { 'pe_build':
     ensure => directory,
-    path   => $pe_build,
+    path   => $quartermaster::pe_build,
   }
   file { 'pe_mount':
     ensure => directory,
-    path   => $pe_mount,
+    path   => $quartermaster::pe_mount,
   }
   file { 'pe_tmp':
     ensure => directory,
-    path   => $pe_tmp,
+    path   => $quartermaster::pe_tmp,
   }
 
   file { 'pe_iso':
     ensure => directory,
-    path   => $pe_iso,
+    path   => $quartermaster::pe_iso,
   }
   #  writing directly to mount on q
   #
   file { 'pe_pxe':
     ensure => directory,
-    path   => $pe_pxe,
+    path   => $quartermaster::pe_pxe,
     mode   => '0770',
     owner  => 'Administrator',
     group  => 'Administrators',
@@ -159,7 +112,7 @@ class petools::adk{
     path    => $::path,
     command => "c:\\Windows\\sysnative\\WindowsPowerShell\\v1.0\\powershell.exe -executionpolicy remotesigned -Command Invoke-WebRequest -UseBasicParsing -uri ${adk_url} -OutFile ${adk_file}",
     creates => "${pe_src}\${file}",
-    cwd     => $pe_src,
+    cwd     => $quartermaster::pe_src,
     require => File['pe_src']
   }
 
