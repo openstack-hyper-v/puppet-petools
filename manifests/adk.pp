@@ -274,7 +274,10 @@ acl{'c:\ProgramData\staging':
     command => "cmd.exe /c ${petools::pe_bin}\\bcdcreate.cmd",
     cwd     => "${petools::pe_pxe}\\Boot",
     creates => "${petools::pe_pxe}\\Boot\\BCD",
-    require => [Exec['install_device_drivers'],File['pe_bin',"${petools::pe_pxe}\\Boot\\boot.sdi"]],
+    require => [
+   #   Exec['install_device_drivers'],
+      File['pe_bin',"${petools::pe_pxe}\\Boot\\boot.sdi"]
+    ],
     notify  => Exec['commit_pe'],
   }
 
