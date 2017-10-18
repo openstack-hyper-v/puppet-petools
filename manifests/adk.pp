@@ -17,6 +17,8 @@ class petools::adk(){
     logoutput => true,
   }
 
+
+
   file { 'pe_dir':
     ensure => directory,
     path   => $petools::pe_dir,
@@ -108,6 +110,22 @@ class petools::adk(){
     group   => 'Administrators',
     require => [File['pe_build'],Exec['install_adk']],
   }
+class{'staging':
+  path    => 'C:/programdata/staging',
+  owner   => 'Administrator',
+  group   => 'Administrator',
+  mode    => '0777',
+  require => Package['unzip'],
+}
+
+acl{'c:\ProgramData\staging':
+  permissions => [
+    { identity => 'Administrator', rights => ['full'] },
+	{ identity => 'mediacenter', rights => ['full'] },
+	{ identity => 'Administrators', rights => ['full'] },
+  ],
+  require     => Class['staging'],
+}
 
 #  exec {'get_adk':
 #    path    => $::path,
@@ -121,7 +139,7 @@ class petools::adk(){
   }
   notice("Silently Installing ${petools::adk_file} from ${petools::pe_src} into destination ${petools::pe_programs}")
   exec { 'install_adk':
-    command => "${petools::pe_src}\\adksetup.exe /quiet /norestart /features ${petools::adk_features} /log ${petools::adk_install_log}",
+    command => "c:\\programdata\\staging\\petools\\adksetup.exe /quiet /norestart /features ${petools::adk_features} /log ${petools::adk_install_log}",
     require => [
       File['pe_src'],
       Staging::File["${petools::adk_file}"],
@@ -237,14 +255,15 @@ class petools::adk(){
 #  class {'petools::dell_drivers':}
 #  class {'petools::kvm_drivers':}
 
-  exec {'install_device_drivers':
-    command => "dism.exe /image:${petools::pe_mount} /Add-Driver /driver:${petools::pe_drivers} /recurse /forceunsigned",
+## Removing installation of device drivers temporarily
+#  exec {'install_device_drivers':
+#    command => "dism.exe /image:${petools::pe_mount} /Add-Driver /driver:${petools::pe_drivers} /recurse /forceunsigned",
 #    require => Exec['mount_pe','7z_extract_zip','7z_extract_iso','install_winpe_storagewmi_en-us'],
-    require => [
-      Exec['mount_pe','install_winpe_storagewmi_en-us'],
+#    require => [
+#      Exec['mount_pe','install_winpe_storagewmi_en-us'],
 #      Class['petools::dell_drivers','petools::kvm_drivers'],
-    ]
-  }
+#    ]
+#  }
   file {"${petools::pe_bin}\\bcdcreate.cmd":
     ensure  => file,
     source  => 'puppet:///modules/petools/edit_bcd_for_pxe.cmd',
